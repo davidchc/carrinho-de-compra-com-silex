@@ -3,31 +3,51 @@ session_start();
 define("DIR", dirname(__FILE__));
 define("DS", DIRECTORY_SEPARATOR);
 
-include_once DIR.DS.'App'.DS.'Loader.php';
+include_once 'vendor/autoload.php';
 
-$loader = new App\Loader();
-$loader->register();
+$app = new \Silex\Application();
+$app['debug'] = true;
 
-$pdo               = new \PDO("mysql:host=localhost;dbname=shop", "root", "");
-$productRepository = new App\Model\Product\ProductRepositoryPDO($pdo);
+$app['db'] = function(){
+    $pdo = new \PDO("mysql:host=localhost;dbname=shop", "root", "");
+    return $pdo;
+};
+
+$app['product.repository'] = function() use($app){
+    $productRepository = new App\Model\Product\ProductRepositoryPDO($app['db']);
+    return $productRepository;
+};
+$app->get('/', function() use($app) {
+    $home = new App\Controller\Home($app['product.repository']);
+    return $home->index();
+});
+
+$app->mount('/shopping', function($shopping) use ($app) {
+    $sessionCart = new App\Model\Shopping\CartSession();
+    $cart = new App\Controller\Cart($app['product.repository'], $sessionCart);
+
+    $shopping->get('/', function() use($cart){
+        return $cart->index();
+    });
+
+    $shopping->post('/add', function() use($app, $cart){
+        $cart->add();
+        return $app->redirect('/cart/shopping');
+    });
+
+    $shopping->post('/update', function() use($app, $cart){
+        $cart->update();
+        return $app->redirect('/cart/shopping');
+    });
+
+    $shopping->get('/delete/{id}', function($id) use($app, $cart){
+        $cart->delete($id);
+        return $app->redirect('/cart/shopping');
+    });
+
+});
+$app->run();
 
 
-$page   = isset($_GET['page']) ? $_GET['page'] : '';
-$action = isset($_GET['action']) ? $_GET['action'] : 'index';
-
-
-
-
-switch($page){
-    case 'cart' :
-        $sessionCart = new App\Model\Shopping\CartSession();
-        $cart = new App\Controller\Cart($productRepository, $sessionCart);
-        call_user_func_array(array($cart, $action), array());
-    break;
-
-    default :
-        $home = new App\Controller\Home($productRepository);
-        call_user_func_array(array($home, $action), array());
-}
 
 

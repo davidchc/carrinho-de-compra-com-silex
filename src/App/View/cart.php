@@ -11,9 +11,9 @@
 <div class="container">
     <div class="page-header">
         <h1>Carrinho</h1>
-        <a href="index.php" class="btn btn-default">Home</a>
+        <a href="/cart" class="btn btn-default">Home</a>
     </div>
-
+    <?php if($cartItems) : ?>
     <table class="table">
         <thead>
         <tr>
@@ -38,21 +38,26 @@
                 <td><?php echo $item->getProduct()->getId()?></td>
                 <td><?php echo $item->getProduct()->getName()?></td>
                 <td>
-                    <form action="index.php?page=cart&action=update" method="post">
+                    <form action="/cart/shopping/update" method="post">
                         <input name="id" type="hidden" value="<?php echo $item->getProduct()->getId()?>" />
-                        <input size="2" type="text" name="quantity" value=" <?php echo $item->getQuantity()?>"/>
+                        <input type="text" name="quantity" min="1" max="10" value=" <?php echo $item->getQuantity()?>"/>
                         <button type="submit" class="btn btn-primary btn-xs">Alterar</button>
                     </form>
                 </td>
                 <td>R$ <?php echo number_format($item->getProduct()->getPrice(), 2, ',', '.')?></td>
                 <td>R$ <?php echo number_format($item->getSubTotal(), 2, ',', '.')?></td>
                 <td>
-                     <a href="index.php?page=cart&action=delete&id=<?php echo $item->getProduct()->getId()?>" class="btn btn-danger">Excluir</a>
+                     <a href="/cart/shopping/delete/<?php echo $item->getProduct()->getId()?>" class="btn btn-danger">Excluir</a>
                 </td>
             </tr>
         <?php endforeach;?>
         </tbody>
     </table>
+    <?php else: ?>
+        <div class="alert alert-info">
+            <h3 class="text-center">Não há produtos no carrinho</h3>
+        </div>
+    <?php endif?>
 </div>
 
 </body>

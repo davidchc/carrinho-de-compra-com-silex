@@ -13,10 +13,9 @@ class Home extends Controller{
         $this->product = $product;
     }
 
-
     public function index(){
         $this->view->set('products', $this->product->getProducts());
-        $this->view->render('home');
+        return $this->view->render('home');
     }
 
 

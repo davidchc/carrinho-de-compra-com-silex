@@ -7,7 +7,7 @@ class View {
     private $folder;
 
     public function __construct(){
-        $this->folder  = DIR.DS.'App'.DS.'view'.DS;
+        $this->folder  = DIR.DS.'src'.DS.'App'.DS.'view'.DS;
     }
 
     public function set($key, $value){
@@ -17,9 +17,11 @@ class View {
     public function render($file){
         $filename = $this->folder.$file.'.php';
         if(file_exists($filename)){
+            ob_start();
             extract($this->data);
             include $filename;
+            return ob_get_clean();
         }
     }
 
-} 
+}

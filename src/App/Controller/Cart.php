@@ -20,7 +20,7 @@ class Cart extends Controller{
     public function index(){
         $this->view->set('cartTotal', $this->cart->getTotal());
         $this->view->set('cartItems', $this->cart->getCartItems());
-       $this->view->render("cart");
+        return $this->view->render("cart");
     }
 
     public function add(){
@@ -29,7 +29,6 @@ class Cart extends Controller{
             $cartItem = new CartItem($product, 1);
             $this->cart->add($cartItem);
         }
-        header("Location: index.php?page=cart");
     }
 
     public function update(){
@@ -38,14 +37,12 @@ class Cart extends Controller{
             $carItem = new CartItem($product, $_POST['quantity']);
             $this->cart->update($carItem);
         }
-        header("Location: index.php?page=cart");
     }
 
-    public function delete(){
-        if(isset($_GET['id']) && preg_match("/^[0-9]+/", $_GET['id'])){
-            $this->cart->delete($_GET['id']);
+    public function delete($id){
+        if(isset($id) && preg_match("/^[0-9]+/", $id)){
+            $this->cart->delete($id);
         }
-        header("Location: index.php?page=cart");
     }
 
 } 
