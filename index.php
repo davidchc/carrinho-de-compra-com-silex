@@ -32,17 +32,17 @@ $app->mount('/cart', function ($shopping) use ($app) {
 
     $shopping->post('/add', function () use ($app, $cart) {
         $cart->add();
-        return $app->redirect('/cart/shopping');
+        return $app->redirect('/shopping/cart');
     });
 
     $shopping->post('/update', function () use ($app, $cart) {
         $cart->update();
-        return $app->redirect('/cart/shopping');
+        return $app->redirect('/shopping/cart');
     });
 
     $shopping->get('/delete/{id}', function ($id) use ($app, $cart) {
         $cart->delete($id);
-        return $app->redirect('/cart/shopping');
+        return $app->redirect('/shopping/cart');
     });
 });
 $app->run();

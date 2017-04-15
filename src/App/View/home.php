@@ -17,7 +17,7 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Produto</th>
+                    <th>Produto</th> 
                     <th>Preço</th>
                     <th></th>
                 </tr>
@@ -29,7 +29,7 @@
                     <td><?php echo $product->getName();?></td>
                     <td>R$ <?php echo number_format($product->getPrice(), 2, ',', '.');?></td>
                     <td>
-                        <form action="/cart/shopping/add" method="post">
+                        <form action="/shopping/cart/add" method="post">
                             <input name="id" type="hidden" value="<?php echo $product->getId()?>"/>
                             <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
                         </form>

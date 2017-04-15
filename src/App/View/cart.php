@@ -11,7 +11,7 @@
 <div class="container">
     <div class="page-header">
         <h1>Carrinho</h1>
-        <a href="/cart" class="btn btn-default">Home</a>
+        <a href="/shopping" class="btn btn-default">Home</a>
     </div>
     <?php if ($cartItems) : ?>
     <table class="table">
@@ -38,7 +38,7 @@
                 <td><?php echo $item->getProduct()->getId()?></td>
                 <td><?php echo $item->getProduct()->getName()?></td>
                 <td>
-                    <form action="/cart/shopping/update" method="post">
+                    <form action="/shopping/cart/update" method="post">
                         <input name="id" type="hidden" value="<?php echo $item->getProduct()->getId()?>" />
                         <input type="text" name="quantity" min="1" max="10" value=" <?php echo $item->getQuantity()?>"/>
                         <button type="submit" class="btn btn-primary btn-xs">Alterar</button>
@@ -47,7 +47,7 @@
                 <td>R$ <?php echo number_format($item->getProduct()->getPrice(), 2, ',', '.')?></td>
                 <td>R$ <?php echo number_format($item->getSubTotal(), 2, ',', '.')?></td>
                 <td>
-                     <a href="/cart/shopping/delete/<?php echo $item->getProduct()->getId()?>" class="btn btn-danger">Excluir</a>
+                     <a href="/shopping/cart/delete/<?php echo $item->getProduct()->getId()?>" class="btn btn-danger">Excluir</a>
                 </td>
             </tr>
         <?php endforeach;?>
