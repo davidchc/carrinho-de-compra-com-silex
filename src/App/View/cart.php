@@ -13,7 +13,7 @@
         <h1>Carrinho</h1>
         <a href="/cart" class="btn btn-default">Home</a>
     </div>
-    <?php if($cartItems) : ?>
+    <?php if ($cartItems) : ?>
     <table class="table">
         <thead>
         <tr>
@@ -33,7 +33,7 @@
             </tr>
         </tfoot>
         <tbody>
-        <?php foreach($cartItems as $item) : ?>
+        <?php foreach ($cartItems as $item) : ?>
             <tr>
                 <td><?php echo $item->getProduct()->getId()?></td>
                 <td><?php echo $item->getProduct()->getName()?></td>

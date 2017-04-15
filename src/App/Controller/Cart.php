@@ -7,42 +7,47 @@ use App\Model\Shopping\Cart as ICart;
 use App\Model\Shopping\CartItem;
 use App\Mvc\Controller;
 
-class Cart extends Controller{
+class Cart extends Controller
+{
     private $product;
     private $cart;
 
-    public function __construct(ProductRepository $product, ICart $cart){
+    public function __construct(ProductRepository $product, ICart $cart)
+    {
         parent::__construct();
         $this->product = $product;
         $this->cart = $cart;
     }
 
-    public function index(){
+    public function index()
+    {
         $this->view->set('cartTotal', $this->cart->getTotal());
         $this->view->set('cartItems', $this->cart->getCartItems());
         return $this->view->render("cart");
     }
 
-    public function add(){
-        if(isset($_POST['id']) && preg_match("/^[0-9]+/", $_POST['id'])){
+    public function add()
+    {
+        if (isset($_POST['id']) && preg_match("/^[0-9]+/", $_POST['id'])) {
             $product = $this->product->getProduct($_POST['id']);
             $cartItem = new CartItem($product, 1);
             $this->cart->add($cartItem);
         }
     }
 
-    public function update(){
-        if(isset($_POST['id']) && preg_match("/^[0-9]+/", $_POST['id'])){
+    public function update()
+    {
+        if (isset($_POST['id']) && preg_match("/^[0-9]+/", $_POST['id'])) {
             $product = $this->product->getProduct($_POST['id']);
             $carItem = new CartItem($product, $_POST['quantity']);
             $this->cart->update($carItem);
         }
     }
 
-    public function delete($id){
-        if(isset($id) && preg_match("/^[0-9]+/", $id)){
+    public function delete($id)
+    {
+        if (isset($id) && preg_match("/^[0-9]+/", $id)) {
             $this->cart->delete($id);
         }
     }
-
-} 
+}

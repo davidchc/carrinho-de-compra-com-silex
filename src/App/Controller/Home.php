@@ -5,18 +5,19 @@ namespace App\Controller;
 use App\Mvc\Controller;
 use App\Model\Product\ProductRepository;
 
-class Home extends Controller{
+class Home extends Controller
+{
     private $product;
 
-    public function __construct(ProductRepository $product){
+    public function __construct(ProductRepository $product)
+    {
         parent::__construct();
         $this->product = $product;
     }
 
-    public function index(){
+    public function index()
+    {
         $this->view->set('products', $this->product->getProducts());
         return $this->view->render('home');
     }
-
-
-} 
+}
